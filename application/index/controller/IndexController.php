@@ -19,4 +19,9 @@ class IndexController extends Controller
     		return $this->error('plz login first!', url('Login/index'));
     	}
     }
+
+    public function index()
+    {
+    	return "web.teacher.com  Index";
+    }
 }
