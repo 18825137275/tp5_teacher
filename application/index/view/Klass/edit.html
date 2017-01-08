@@ -11,7 +11,7 @@
         <input type="text" name="name" id="name" value="{$Klass->getData('name')}"/>
         <label for="teacher">teacher:</label>
         <select name="teacher_id" id="teacher">
-        {volist name="Klass->getTeacher->all()" id='_Teacher'}
+        {volist name="$Klass->getTeacher->all()" id='_Teacher'}
             <option value="{$_Teacher->id}" {eq name="$_Teacher->id" value="$Klass->getData('teacher_id')"} selected="selected" {/eq} >{$_Teacher->name}</option>
         {/volist}
         </select>

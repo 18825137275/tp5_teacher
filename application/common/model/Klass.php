@@ -7,7 +7,7 @@ use think\Model;
  */
 class Klass extends Model
 {
-	//分页+查询
+	//分页+查询参数
 	public function pagiN($pageSize, $name)
     {
         if(!empty($name)){

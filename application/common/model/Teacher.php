@@ -9,6 +9,12 @@ use think\Model;    //  导入think\Model类
 // 我的类名叫做Teacher,对应的文件名为Teacher.php.该类继承了Model类,Model我们在文件头中,提前使用use进行了导入
 class Teacher extends Model
 {
+    /**
+     * 分页+查询参数
+     * @param  [type] $pageSize [description]
+     * @param  [type] $name     [description]
+     * @return [type]           [description]
+     */
     public function pagiN($pageSize, $name)
     {
         if(!empty($name)){
@@ -20,6 +26,23 @@ class Teacher extends Model
                 'name' => $name,
                 ],
             ]);
+    }
+
+    /**
+     * 获取器：获取性别
+     * @param  [type] 0男，1女
+     * @return [type]        [description]
+     */
+    public function getSexAttr($value)
+    {
+        $status = array('0' => '男', '1' => '女');
+        $sex = $status[$value];
+        if (isset($sex))
+        {
+            return $sex;
+        } else {
+            return $status['0'];
+        }
     }
 
 	/**

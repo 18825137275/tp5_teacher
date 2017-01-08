@@ -7,6 +7,10 @@ use app\common\model\Teacher;
 
 class KlassController extends IndexController
 {
+	/**
+	 * index数据列表
+	 * @return [type] [description]
+	 */
 	public function index()
 	{
 		// 获取查询信息

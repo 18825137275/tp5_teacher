@@ -15,7 +15,7 @@ class Student extends Model
  //        'create_time' => 'datetime',
  //    ];
 
-	//分页+查询
+	//分页+查询参数
 	public function pagiN($pageSize, $name)
     {
         if(!empty($name)){
@@ -30,7 +30,7 @@ class Student extends Model
     }
 
      /**
-     * 输出性别的属性
+     * 获取器：获取性别
      * @return string 0男，1女
      * @author 梦云智 http://www.mengyunzhi.com
      */
@@ -47,7 +47,7 @@ class Student extends Model
     }
 
     /**
-     * 获取要显示的创建时间
+     * 获取器：获取要显示的创建时间
      * @param  int $value 时间戳
      * @return string  转换后的字符串
      * @author panjie <panjie@yunzhiclub.com>
@@ -58,7 +58,7 @@ class Student extends Model
     }
 
     /**
-     * 获取对应的班级信息
+     * 获取对应的班级信息（一对多关联belongsTo）
      * @return Klass 班级
      * @author panjie <panjie@yunzhiclub.com>
      */
@@ -68,7 +68,7 @@ class Student extends Model
     }
 
     /**
-     * 获取对应的教师信息
+     * 获取对应的教师信息（一对多关联belongsTo）
      * @return Teacher 教师
      * @author panjie <panjie@yunzhiclub.com>
      */
