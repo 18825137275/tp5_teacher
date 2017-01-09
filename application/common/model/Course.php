@@ -36,7 +36,7 @@ class Course extends Model
 	}
 
 	/**
-	 * 获取是否存在相关关联记录
+	 * 获取是否存在相关关联记录（edit页面，班级信息默认勾选）
 	 * @param  [type] $klass [description]
 	 * @return [type]        [description]
 	 */
@@ -57,5 +57,14 @@ class Course extends Model
 		} else {
 			return true;
 		}
+	}
+
+	/**
+	 * 一对多关联（hasMany）
+	 * @return [type] [description]
+	 */
+	public function getKlassCourses()
+	{
+		return $this->hasMany('KlassCourse');
 	}
 }

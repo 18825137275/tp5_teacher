@@ -58,7 +58,7 @@ class Student extends Model
     }
 
     /**
-     * 获取对应的班级信息（一对多关联belongsTo）
+     * 获取对应的班级信息（多对一关联belongsTo）
      * @return Klass 班级
      * @author panjie <panjie@yunzhiclub.com>
      */
@@ -68,7 +68,7 @@ class Student extends Model
     }
 
     /**
-     * 获取对应的教师信息（一对多关联belongsTo）
+     * 获取对应的教师信息（多对一关联belongsTo）
      * @return Teacher 教师
      * @author panjie <panjie@yunzhiclub.com>
      */
