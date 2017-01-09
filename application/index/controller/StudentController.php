@@ -3,7 +3,6 @@ namespace app\index\controller;
 
 use think\Request;
 use app\common\model\Student;
-use app\common\model\Teacher;
 use app\common\model\Klass;
 
 class StudentController extends IndexController
@@ -32,8 +31,12 @@ class StudentController extends IndexController
 	 */
 	public function add()
 	{
-		$klasses = Klass::all();
-		$this->assign('klasses', $klasses);
+		//获取所有的班级信息
+		// $klasses = Klass::all();
+		// $this->assign('klasses', $klasses);
+
+		//传入一个空的Student，用以V层通一对多关联的getKlass()方法获取班级信息，而不必传入班级列表（Klass）信息和use Klass模型了。
+		$this->assign('Student', new Student);
 		return $this->fetch();
 	}
 
@@ -90,17 +93,17 @@ class StudentController extends IndexController
 		$id = Request::instance()->post('id/d');
 
 		// 获取当前对象
-        $klass = Klass::get($id);
+        $student = Student::get($id);
 
-        if(is_null($klass)){
+        if(is_null($student)){
         	return $this->error('所更新的记录不存在');
         }
 
         //数据更新
-        $klass->name = Request::instance()->post('name');
-        $klass->teacher_id = Request::instance()->post('teacher_id');
-        if(!$klass->validate(true)->save()){
-        	return $this->error('更新错误：' . $klass->getError());
+        $student->name = Request::instance()->post('name');
+        $student->teacher_id = Request::instance()->post('teacher_id');
+        if(!$student->validate(true)->save()){
+        	return $this->error('更新错误：' . $student->getError());
         }else{
         	return $this->success('操作成功', url('index'));
         }
@@ -117,15 +120,15 @@ class StudentController extends IndexController
 		$id = $Request->param('id/d');
 
 		// 获取当前对象
-        $klass = Klass::get($id);
+        $student = Student::get($id);
 
-        if(0 === $id || is_null($klass)){
+        if(0 === $id || is_null($student)){
         	return $this->error('删除的记录不存在');
         }
 
         //删除对象
-        if(!$klass->delete()){
-        	return $this->error('删除失败:' . $klass->getError());
+        if(!$student->delete()){
+        	return $this->error('删除失败:' . $student->getError());
         }
 
         // 进行跳转 

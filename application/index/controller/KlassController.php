@@ -3,7 +3,6 @@ namespace app\index\controller;
 
 use think\Request;
 use app\common\model\Klass;
-use app\common\model\Teacher;
 
 class KlassController extends IndexController
 {
@@ -32,8 +31,11 @@ class KlassController extends IndexController
 	public function add()
 	{
 		//获取所有的教师信息
-		$teachers = Teacher::all();
-		$this->assign('teachers', $teachers);
+		// $teachers = Teacher::all();
+		// $this->assign('teachers', $teachers);
+		
+		//传入一个空的Klass，用以V层通过一对多关联的getTeacher()方法获取教师信息，而不必传入教师列表（Teacher）信息和use Teacher模型了。
+		$this->assign('Klass', new Klass);
 		return $this->fetch();
 	}
 

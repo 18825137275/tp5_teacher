@@ -9,7 +9,7 @@
         <label for="name">name:</label><input type="text" name="name" id="name" />
         <label for="teacher">teacher:</label>
         <select name="teacher_id" id="teacher">
-        {volist name="teachers" id='_Teacher' key="key"}
+        {volist name="$Klass->getTeacher()->select()" id='_Teacher' key="key"}
             <option value="{$_Teacher->getData('id')}">{$_Teacher->getData('name')}</option>
         {/volist}
         </select>
