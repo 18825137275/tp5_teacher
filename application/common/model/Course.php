@@ -34,4 +34,28 @@ class Course extends Model
 	{
 		return $this->belongsToMany('Klass', config('database.prefix') . 'klass_course');
 	}
+
+	/**
+	 * 获取是否存在相关关联记录
+	 * @param  [type] $klass [description]
+	 * @return [type]        [description]
+	 */
+	public function getIsChecked(Klass &$klass)
+	{
+		//取课程ID
+		$courseId = (int)$this->id;
+		$klassId = (int)$klass->id;
+
+		$map = array();
+		$map['klass_id'] = $klassId;
+		$map['course_id'] = $courseId;
+
+		$klassCourse = KlassCourse::get($map);
+
+		if (is_null($klassCourse)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

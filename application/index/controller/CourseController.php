@@ -72,4 +72,17 @@ class CourseController extends IndexController
         unset($Course); // unset出现的位置和new语句的缩进量相同，在返回前，最后被执行。
 		return $this->success('操作成功！', url('index'));
 	}
+
+	public function edit()
+	{
+		$id = Request::instance()->param('id/d');
+
+		$Course = Course::get($id);
+
+		if(is_null($Course)){
+			return $this->error('不存在ID为' . $id . '的记录');
+		}
+		$this->assign('Course', $Course);
+		return $this->fetch();
+	}
 }
