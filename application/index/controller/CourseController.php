@@ -37,9 +37,15 @@ class CourseController extends IndexController
 		// $this->assign('klasses', $klasses);
 		
 		//传入一个空的Course，用以V层通多对多关联的klasses()方法获取班级信息，而不必传入班级列表（Klass）信息和use Klass模型了。
-		$this->assign('Course', new Course);
+		$Course = new Course;
 
-		return $this->fetch();
+		//重构代码，传入一个空的模型，跟edit共用一个模板edit.html
+		$Course->id = 0;
+		$Course->name = '';
+
+		$this->assign('Course', $Course);
+		//调用edit.html模板
+		return $this->fetch('edit');
 	}
 
 	/**
@@ -147,7 +153,7 @@ class CourseController extends IndexController
 			return $this->error('删除失败:' . $Course->getError());
         }
 
-        //删除班级课程信息
+        //删除班级课程信息(删除课程信息的同时要删除班级课程表中课程对应的信息)
         $map = ['course_id' => $id];
 
         // 执行删除操作。由于可能存在 成功删除0条记录，故使用false来进行判断，而不能使用

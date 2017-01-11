@@ -30,5 +30,14 @@ class Klass extends Model
     {
     	return $this->belongsTo('Teacher');
     }
+
+    /**
+     * 一对多关联（hasMany）
+     * @return [type] [description]
+     */
+    public function getKlassCourses()
+    {
+        return $this->hasMany('KlassCourse');
+    }
 }
 

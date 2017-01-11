@@ -36,8 +36,42 @@ class StudentController extends IndexController
 		// $this->assign('klasses', $klasses);
 
 		//传入一个空的Student，用以V层通一对多关联的getKlass()方法获取班级信息，而不必传入班级列表（Klass）信息和use Klass模型了。
-		$this->assign('Student', new Student);
-		return $this->fetch();
+		$Student = new Student;
+
+		//重构代码，传入一个空的模型，跟edit共用一个模板edit.html
+		$Student->id = 0;
+		$Student->name = '';
+		$Student->num = '';
+		$Student->sex = 0;
+		$Student->klass_id = 0;
+		$Student->email = '';
+
+		$this->assign('Student', $Student);
+		//调用edit.html模板
+		return $this->fetch('edit');
+	}
+
+	/**
+     * 对数据进行更新或保存
+     * @说明：这里把function设置为private私有属性，一是为了更加安全，因为声明为private后，就不能通过URL来进行访问了；二是为了区别触发器与一般的函数，我们触发器是可以被URL来触发，而一般的函数只所以不叫做触发器，是由于通过URL触发不到。我们声明为private就达到了这个触发不到的目的。
+     * @param  Student &$Student 注意：我们在这的参数为(&$Student)，这使得：如果执行$Student->validate(true)->save()时发生错误，错误信息能够能过Student变量进行回传，这和C语言中的&a(将变量a的地址传入)是相同的道理。
+     * @param  boolean $isUpdate 判断是否为更新操作，如果是更新某些不能修改的数据则不被提交
+     * @return [type]            [description]
+     */
+	private function saveStudent(Student &$Student, $isUpdate = false)
+	{
+		$Request = Request::instance();
+
+		$Student->name = $Request->post('name');
+		//如果为更新操作，学号不能修改
+		if(!$isUpdate){
+			$Student->num = $Request->post('num');
+		}
+		$Student->sex = $Request->post('sex');
+		$Student->klass_id = $Request->post('klass_id');
+		$Student->email = $Request->post('email');
+
+		return $Student->validate(true)->save();
 	}
 
 	/**
@@ -47,15 +81,8 @@ class StudentController extends IndexController
 	public function save()
 	{
 		$Student = new Student;
-		$Request = Request::instance();
 
-		$Student->name = $Request->post('name');
-		$Student->num = $Request->post('num');
-		$Student->sex = $Request->post('sex');
-		$Student->klass_id = $Request->post('klass_id');
-		$Student->email = $Request->post('email');
-
-		if(!$Student->validate(true)->save()){
+		if(!$this->saveStudent($Student)){
 			return $this->error('添加错误：'.$Student->getError());
 		}
 
@@ -93,20 +120,17 @@ class StudentController extends IndexController
 		$id = Request::instance()->post('id/d');
 
 		// 获取当前对象
-        $student = Student::get($id);
+        $Student = Student::get($id);
 
-        if(is_null($student)){
+        if(is_null($Student)){
         	return $this->error('所更新的记录不存在');
         }
 
-        //数据更新
-        $student->name = Request::instance()->post('name');
-        $student->teacher_id = Request::instance()->post('teacher_id');
-        if(!$student->validate(true)->save()){
-        	return $this->error('更新错误：' . $student->getError());
-        }else{
-        	return $this->success('操作成功', url('index'));
+        if(!$this->saveStudent($Student, true)){
+        	return $this->error('更新错误：' . $Student->getError());
         }
+        	
+    	return $this->success('操作成功', url('index'));
 	}
 
 	/**

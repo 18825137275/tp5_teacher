@@ -15,7 +15,12 @@ class Student extends Model
  //        'create_time' => 'datetime',
  //    ];
 
-	//分页+查询参数
+	/**
+     * 分页+查询参数
+     * @param  [type] $pageSize [description]
+     * @param  [type] $name     [description]
+     * @return [type]           [description]
+     */
 	public function pagiN($pageSize, $name)
     {
         if(!empty($name)){
